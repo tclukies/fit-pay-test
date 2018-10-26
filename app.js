@@ -28,69 +28,83 @@ function giveMeAToken() {
 
 app.get("/compositeUsers/:userId", async (req, res) => {
     let token = await giveMeAToken();
-    let compositeObject = {}
+    let compositeObject = {};
     // console.log("2" + token);
     //hit the oauth route
     var options = {
         method: "GET",
-        url: "https://api.qa.fitpay.ninja/users/"+ req.params.userId,
+        url: "https://api.qa.fitpay.ninja/users/" + req.params.userId,
         headers: {
             Authorization: "Bearer " + token
         },
         rejectUnauthorized: false
-
     };
 
     await request(options, function(error, response, body) {
         if (error) throw new Error(error);
 
         // console.log(body);
-        compositeObject = {...compositeObject, "userInfo":JSON.parse(body)}
+        compositeObject = { ...compositeObject, userInfo: JSON.parse(body) };
         // console.log(compositeObject)
     });
 
     var options = {
         method: "GET",
-        url: "https://api.qa.fitpay.ninja/users/"+ req.params.userId + "/devices",
+        url:
+            "https://api.qa.fitpay.ninja/users/" +
+            req.params.userId +
+            "/devices",
         headers: {
             Authorization: "Bearer " + token
         },
         rejectUnauthorized: false
-
     };
 
     await request(options, function(error, response, body) {
         if (error) throw new Error(error);
 
         // console.log(body);
-        compositeObject = {...compositeObject,"devices":JSON.parse(body)}
-
+        compositeObject = { ...compositeObject, devices: JSON.parse(body) };
     });
 
     var options = {
         method: "GET",
-        url: "https://api.qa.fitpay.ninja/users/"+ req.params.userId + "/creditCards",
+        url:
+            "https://api.qa.fitpay.ninja/users/" +
+            req.params.userId +
+            "/creditCards",
         headers: {
             Authorization: "Bearer " + token
         },
         rejectUnauthorized: false
-
     };
 
     await request(options, function(error, response, body) {
         if (error) throw new Error(error);
-        // console.log(body);
-        // console.log(compositeObject)
-        compositeObject = {...compositeObject, "creditCards":JSON.parse(body)}; 
-    })
-    
-    console.log(compositeObject);
-    res.send(compositeObject)
-    // return JSON.stringify(compositeObject);
-    
-    //hit all three of routes with that oauth token
-    //combine into one json
-})
+        compositeObject = { ...compositeObject, creditCards: JSON.parse(body) };
+    });
+    if (req.query.creditCardState && req.query.deviceState) {
+        compositeObject.creditCards.results = compositeObject.creditCards.results.filter(
+            e => e.state === req.query.creditCardState
+        );
+        compositeObject.devices.results = compositeObject.devices.results.filter(
+            e => e.state == req.query.deviceState
+        );
+        res.send(compositeObject);
+    } else if (req.query.creditCardState) {
+        compositeObject.creditCards.results = compositeObject.creditCards.results.filter(
+            e => e.state === req.query.creditCardState
+        );
+        res.send(compositeObject);
+    } else if (req.query.deviceState) {
+        compositeObject.devices.results = compositeObject.devices.results.filter(
+            e => e.state === req.query.deviceState
+        );
+        res.send(compositeObject);
+    } else {
+        res.send(compositeObject);
+    }
+});
 
 app.listen(port, () => {
     console.log("listening on port", port);
