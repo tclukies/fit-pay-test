@@ -28,8 +28,27 @@ function giveMeAToken() {
 
 app.get("/compositeUsers/:userId", async (req, res) => {
     let token = await giveMeAToken();
+    let compositeObject = {}
     // console.log("2" + token);
     //hit the oauth route
+    var options = {
+        method: "GET",
+        url: "https://api.qa.fitpay.ninja/users/"+ req.params.userId,
+        headers: {
+            Authorization: "Bearer " + token
+        },
+        rejectUnauthorized: false
+
+    };
+
+    await request(options, function(error, response, body) {
+        if (error) throw new Error(error);
+
+        // console.log(body);
+        compositeObject = {...compositeObject, "userInfo":JSON.parse(body)}
+        // console.log(compositeObject)
+    });
+
     var options = {
         method: "GET",
         url: "https://api.qa.fitpay.ninja/users/"+ req.params.userId + "/devices",
@@ -40,15 +59,38 @@ app.get("/compositeUsers/:userId", async (req, res) => {
 
     };
 
-    request(options, function(error, response, body) {
+    await request(options, function(error, response, body) {
         if (error) throw new Error(error);
 
-        console.log(body);
+        // console.log(body);
+        compositeObject = {...compositeObject,"devices":JSON.parse(body)}
+
     });
 
+    var options = {
+        method: "GET",
+        url: "https://api.qa.fitpay.ninja/users/"+ req.params.userId + "/creditCards",
+        headers: {
+            Authorization: "Bearer " + token
+        },
+        rejectUnauthorized: false
+
+    };
+
+    await request(options, function(error, response, body) {
+        if (error) throw new Error(error);
+        // console.log(body);
+        // console.log(compositeObject)
+        compositeObject = {...compositeObject, "creditCards":JSON.parse(body)}; 
+    })
+    
+    console.log(compositeObject);
+    res.send(compositeObject)
+    // return JSON.stringify(compositeObject);
+    
     //hit all three of routes with that oauth token
     //combine into one json
-});
+})
 
 app.listen(port, () => {
     console.log("listening on port", port);
