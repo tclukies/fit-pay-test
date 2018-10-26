@@ -90,16 +90,21 @@ app.get("/compositeUsers/:userId", async (req, res) => {
         compositeObject.devices.results = compositeObject.devices.results.filter(
             e => e.state == req.query.deviceState
         );
+        compositeObject.devices.totalResults = compositeObject.devices.results.length
+        compositeObject.creditCards.totalResults = compositeObject.creditCards.results.length
+        
         res.send(compositeObject);
     } else if (req.query.creditCardState) {
         compositeObject.creditCards.results = compositeObject.creditCards.results.filter(
             e => e.state === req.query.creditCardState
         );
+        compositeObject.creditCards.totalResults = compositeObject.creditCards.results.length
         res.send(compositeObject);
     } else if (req.query.deviceState) {
         compositeObject.devices.results = compositeObject.devices.results.filter(
             e => e.state === req.query.deviceState
         );
+        compositeObject.devices.totalResults = compositeObject.devices.results.length
         res.send(compositeObject);
     } else {
         res.send(compositeObject);
