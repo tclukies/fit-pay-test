@@ -47,7 +47,7 @@ function giveMeAToken() {
     }).then(res => JSON.parse(res).access_token);
 }
 
-app.get("/compositeUsers/:userId", cacheMiddleware(30), async (req, res) => {
+app.get("/compositeUsers/:userId",cacheMiddleware(), async (req, res) => {
     let token = await giveMeAToken();
     let compositeObject = {};
     // console.log("2" + token);
