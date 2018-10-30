@@ -21,7 +21,7 @@ npm install
 ```
 3. Input ENV variables for your client id and client secret provided by FitPay: 
 ```
-ENV_clientCredentials = {CLIENT_ID:CLIENT_SECRET}
+export ENV_clientCredentials = {CLIENT_ID:CLIENT_SECRET}
 ```
 4. Run the following command in the fold to start the application:
 ```
