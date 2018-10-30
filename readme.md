@@ -15,20 +15,24 @@ GET http://localhost:8080/compositeUsers/:userId
 ## Instructions
 
 1. Clone this repository 
-2. Run the following command in the local folder:
+2. This application requires installation of node.js. Find the link for installation below:
+```
+https://nodejs.org/en/download/package-manager/
+```
+3. Run the following command in the local folder:
 ```
 npm install
 ```
-3. Input environment variables for your client id and client secret provided by FitPay: 
+4. Input environment variables for your client id and client secret provided by FitPay: 
 ```
 export CLIENT_ID="[clientId]"
 export CLIENT_SECRET="[clientSecret]"
 ```
-4. Run the following command in the fold to start the application:
+5. Run the following command in the fold to start the application:
 ```
 node app.js
 ```
-5. Visit desired routes in the browser or use curl commands in the terminal with optional filters to recieve your payload:
+6. Visit desired routes in the browser or use curl commands in the terminal with optional filters to recieve your payload:
 ```
 GET http://localhost:8080/compositeUsers/:userId?creditCardState=ACTIVE
 GET http://localhost:8080/compositeUsers/:userId?deviceState=INITIALIZED
