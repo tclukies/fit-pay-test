@@ -36,5 +36,5 @@ node app.js
 ```
 GET http://localhost:8080/compositeUsers/:userId?creditCardState=ACTIVE
 GET http://localhost:8080/compositeUsers/:userId?deviceState=INITIALIZED
-GET http://localhost:8080/compositeUsers/:userId?creditCardState=ERROR&deviceState=FAILED_INITILIZATION
+GET http://localhost:8080/compositeUsers/:userId?creditCardState=ERROR&deviceState=FAILED_INITIALIZATION
 ```
