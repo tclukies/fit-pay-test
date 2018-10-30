@@ -34,6 +34,7 @@ node app.js
 ```
 6. Visit desired routes in the browser or use curl commands in the terminal with optional filters to recieve your payload:
 ```
+GET http://localhost:8080/compositeUsers/:userId
 GET http://localhost:8080/compositeUsers/:userId?creditCardState=ACTIVE
 GET http://localhost:8080/compositeUsers/:userId?deviceState=INITIALIZED
 GET http://localhost:8080/compositeUsers/:userId?creditCardState=ERROR&deviceState=FAILED_INITIALIZATION
