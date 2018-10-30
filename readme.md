@@ -19,15 +19,16 @@ GET http://localhost:8080/compositeUsers/:userId
 ```
 npm install
 ```
-3. Input ENV variables for your client id and client secret provided by FitPay: 
+3. Input environment variables for your client id and client secret provided by FitPay: 
 ```
-export ENV_clientCredentials = {CLIENT_ID:CLIENT_SECRET}
+export CLIENT_ID="[clientId]"
+export CLIENT_SECRET="[clientSecret]"
 ```
 4. Run the following command in the fold to start the application:
 ```
 node app.js
 ```
-5. Visit desired routes in the browser with optional filters to recieve a payload:
+5. Visit desired routes in the browser or use curl commands in the terminal with optional filters to recieve your payload:
 ```
 GET http://localhost:8080/compositeUsers/:userId?creditCardState=ACTIVE
 GET http://localhost:8080/compositeUsers/:userId?deviceState=INITIALIZED
