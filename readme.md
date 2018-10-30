@@ -23,12 +23,12 @@ https://nodejs.org/en/download/package-manager/
 ```
 npm install
 ```
-4. Input environment variables for your client id and client secret provided by FitPay: 
+4. Define environment variables for your client id and client secret provided by FitPay: 
 ```
 export CLIENT_ID="[clientId]"
 export CLIENT_SECRET="[clientSecret]"
 ```
-5. Run the following command in the fold to start the application:
+5. Run the following command in the folder to start the application:
 ```
 node app.js
 ```
