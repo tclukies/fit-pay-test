@@ -2,9 +2,30 @@ const express = require("express");
 const app = express();
 const port = 8080;
 const request = require("request-promise");
+const cache = require('memory-cache');
+
 // const bodyParser = require("body-parser");
 
 // app.use(bodyParser.json());
+let memCache = new cache.Cache();
+    let cacheMiddleware = (duration) => {
+        return (req, res, next) => {
+            let key =  '__express__' + req.originalUrl || req.url
+            let cacheContent = memCache.get(key);
+            if(cacheContent){
+                res.send( cacheContent );
+                return
+            }else{
+                res.sendResponse = res.send
+                res.send = (body) => {
+                    memCache.put(key,body,duration*1000);
+                    res.sendResponse(body)
+                }
+                next()
+            }
+        }
+    }
+    
 
 function giveMeAToken() {
     var options = {
@@ -26,7 +47,7 @@ function giveMeAToken() {
     }).then(res => JSON.parse(res).access_token);
 }
 
-app.get("/compositeUsers/:userId", async (req, res) => {
+app.get("/compositeUsers/:userId",cacheMiddleware(), async (req, res) => {
     let token = await giveMeAToken();
     let compositeObject = {};
     // console.log("2" + token);
