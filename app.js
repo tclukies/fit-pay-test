@@ -1,6 +1,6 @@
 const express = require("express");
 const app = express();
-const port = 8080;
+const port = process.env.PORT || 8080;
 const request = require("request-promise");
 const cache = require('memory-cache');
 
@@ -25,16 +25,20 @@ let memCache = new cache.Cache();
             }
         }
     }
-    
+
+
 
 function giveMeAToken() {
+    // console.log(process.env.CLIENT_ID)
+    // console.log(process.env.CLIENT_SECRET)
+
     var options = {
         method: "GET",
         url: "https://auth.qa.fitpay.ninja/oauth/token",
         auth: {
             //pass this as env variable
-            user: "plFYHKtt",
-            pass: "5AditH9m"
+            user: process.env.CLIENT_ID,
+            pass: process.env.CLIENT_SECRET
         },
         //query string option
         qs: {
