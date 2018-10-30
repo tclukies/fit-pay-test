@@ -4,9 +4,7 @@ const port = process.env.PORT || 8080;
 const request = require("request-promise");
 // const cache = require('memory-cache');
 
-let token
-
-// Memory cache token 
+// Memory cache token
 // let memCache = new cache.Cache();
 //     let cacheMiddleware = (duration) => {
 //         return (req, res, next) => {
@@ -46,12 +44,7 @@ function giveMeAToken() {
 }
 
 app.get("/compositeUsers/:userId", async (req, res, err) => {
-    if (err){
-        console.log(err)
-        console.log("no token yet getting a new one")
-        token = await giveMeAToken();
-    }
-    
+    let token = await giveMeAToken();
     let compositeObject = {};
 
     //Hit all three routes after token has been given and add each payload to compositeObject
@@ -104,7 +97,7 @@ app.get("/compositeUsers/:userId", async (req, res, err) => {
     });
 
     // Optional query string filter logic
-    // Change totalResults key to actual number of results 
+    // Change totalResults key to actual number of results
     if (req.query.creditCardState && req.query.deviceState) {
         compositeObject.creditCards.results = compositeObject.creditCards.results.filter(
             cards => cards.state === req.query.creditCardState
